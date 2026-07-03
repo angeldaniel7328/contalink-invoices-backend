@@ -2,9 +2,6 @@ from app.extensions import db
 
 
 class Invoice(db.Model):
-    """
-    Modelo que representa una factura almacenada en la base de datos.
-    """
     __tablename__ = 'invoices'
 
     id = db.Column(db.Integer, primary_key=True)

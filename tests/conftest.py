@@ -10,10 +10,6 @@ from app.models import Invoice
 
 @fixture()
 def app():
-    """
-    Crea una instancia de la aplicación utilizando la configuración de
-    pruebas e inicializa una base de datos en memoria.
-    """
     app = create_app(ConfigTest)
 
     with app.app_context():
@@ -24,17 +20,10 @@ def app():
 
 @fixture()
 def client(app) -> FlaskClient:
-    """
-    Proporciona un cliente HTTP para realizar peticiones a la aplicación.
-    """
     return app.test_client()
 
 @fixture()
 def sample_invoices(app):
-    """
-    Inserta un conjunto de facturas de prueba en la base de datos para ser
-    utilizadas durante la ejecución de las pruebas.
-    """
     invoices = [
         Invoice(
             invoice_number="C29718",

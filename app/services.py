@@ -10,10 +10,6 @@ class InvoiceService:
         self.response_schema = InvoiceResponseSchema()
 
     def get_invoices(self, start_date: datetime, end_date: datetime, page: int, page_size: int):
-        """
-        Obtiene las facturas dentro del rango de fechas especificado y
-        construye la respuesta paginada que será enviada al cliente.
-        """
         total, invoices = InvoiceRepository.find_by_date_range(
             start_date,
             end_date,

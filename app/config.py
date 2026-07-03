@@ -9,9 +9,6 @@ load_dotenv()
 
 
 class Config:
-    """
-    Configuración base de la aplicación.
-    """
     SQLALCHEMY_DATABASE_URI = URL.create(
         drivername= "postgresql+psycopg2",
         username= os.getenv("DB_USER"),
@@ -32,9 +29,6 @@ class Config:
 
 
 class ConfigTest:
-    """
-    Configuración utilizada durante la ejecución de pruebas.
-    """
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     SQLALCHEMY_SESSION_OPTIONS = {"expire_on_commit": False}

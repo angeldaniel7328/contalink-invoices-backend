@@ -2,11 +2,6 @@ from marshmallow import Schema, fields, validates_schema, ValidationError, valid
 
 
 class InvoiceQuerySchema(Schema):
-    """
-    Esquema utilizado para validar los parámetros de consulta del endpoint
-    de facturas.
-    """
-
     start_date = fields.Date(
         required=True,
         load_only=True,
@@ -55,10 +50,6 @@ class InvoiceQuerySchema(Schema):
     )
 
 class InvoiceSchema(Schema):
-    """
-    Esquema utilizado para serializar una factura.
-    """
-
     id = fields.Int(dump_only=True)
     invoice_number = fields.Str(dump_only=True)
     total = fields.Decimal(dump_only=True, as_string=True)
@@ -67,10 +58,6 @@ class InvoiceSchema(Schema):
     active = fields.Bool(dump_only=True)
 
 class InvoiceResponseSchema(Schema):
-    """
-    Esquema utilizado para serializar la respuesta paginada de facturas.
-    """
-
     total = fields.Int(dump_only=True)
     page = fields.Int(dump_only=True)
     page_size = fields.Int(dump_only=True)

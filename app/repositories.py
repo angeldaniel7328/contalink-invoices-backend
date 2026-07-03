@@ -13,10 +13,6 @@ class InvoiceRepository:
 
     @staticmethod
     def find_by_date_range(start_date: datetime, end_date: datetime, page: int, page_size: int):
-        """
-        Consulta las facturas cuyo rango de fechas se encuentra entre las
-        fechas indicadas y aplica paginación sobre los resultados.
-        """
         try:
             query = (
                 Invoice.query

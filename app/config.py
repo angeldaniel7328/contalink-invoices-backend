@@ -27,6 +27,13 @@ class Config:
     JWT_ALGORITHM = "HS256"
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
 
+    MAIL_SERVER = os.getenv("MAIL_SERVER")
+    MAIL_PORT = int(os.getenv("MAIL_PORT", 587))
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+
+    MAIL_TO = os.getenv("MAIL_RECIPIENT")
+
 
 class ConfigTest:
     TESTING = True

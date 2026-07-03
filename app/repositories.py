@@ -3,8 +3,10 @@ import logging
 from datetime import datetime
 
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import func
 
 from app.models import Invoice
+from app import db
 
 logger = logging.getLogger(__name__)
 
@@ -43,3 +45,17 @@ class InvoiceRepository:
                 page_size,
             )
             raise
+
+    @staticmethod
+    def find_top_sales_days(limit=10):
+        return (
+            db.session.query(
+                func.date(Invoice.invoice_date).label("invoice_day"),
+                func.sum(Invoice.total).label("total_sales")
+            )
+            .filter(Invoice.active.is_(True))
+            .group_by(func.date(Invoice.invoice_date))
+            .order_by(func.sum(Invoice.total).desc())
+            .limit(limit)
+            .all()
+        )

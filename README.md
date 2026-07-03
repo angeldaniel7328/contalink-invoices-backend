@@ -45,9 +45,18 @@ DB_PASSWORD=UQpaA9TA
 
 AUTH_USERNAME=admin
 AUTH_PASSWORD=admin123
+JWT_SECRET_KEY=mi_clave_jwt
 
-JWT_SECRET_KEY=my-secret-key
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=contalinkprueba@gmail.com
+MAIL_PASSWORD=ecep qirh qqcj cweo
+MAIL_RECIPIENT=destinatario@gmail.com
 ```
+
+> **Importante:**
+>
+> - Reemplaza el valor de `MAIL_RECIPIENT` por la dirección de correo que recibirá el reporte diario.
 
 ## Ejecutar la aplicación
 
@@ -127,3 +136,12 @@ Respuesta:
   ]
 }
 ```
+
+## Reporte diario de ventas
+
+La aplicación ejecuta un proceso en segundo plano encargado de generar y enviar por correo electrónico el **Top 10 de los días con mayor venta**.
+
+El proceso se ejecuta automáticamente en los siguientes casos:
+
+- **Cada vez que la aplicación inicia.**
+- **Todos los días a las 08:00 a.m. (hora de la Ciudad de México).**

@@ -6,6 +6,7 @@ from flask_cors import CORS
 from app.config import Config
 from app.extensions import db, swagger, jwt
 from app.routes import register_routes
+from app.scheduler import start_scheduler
 
 
 def create_app(config_class=Config):
@@ -30,5 +31,7 @@ def create_app(config_class=Config):
     app.url_map.strict_slashes = False
 
     register_routes(app)
+
+    start_scheduler(app)
 
     return app

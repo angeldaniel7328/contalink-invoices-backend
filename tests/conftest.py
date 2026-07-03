@@ -2,6 +2,7 @@ from datetime import datetime
 
 from pytest import fixture
 from flask.testing import FlaskClient
+from flask_jwt_extended import create_access_token
 
 from app import create_app
 from app.extensions import db
@@ -21,6 +22,15 @@ def app():
 @fixture()
 def client(app) -> FlaskClient:
     return app.test_client()
+
+@fixture()
+def auth_headers(app):
+    with app.app_context():
+        token = create_access_token(identity="test-user")
+
+    return {
+        "Authorization": f"Bearer {token}"
+    }
 
 @fixture()
 def sample_invoices(app):

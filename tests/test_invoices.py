@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 INVOICES_PATH = "/api/invoices"
 
-def test_get_invoices_success(client, sample_invoices):
+def test_get_invoices_success(client, sample_invoices, auth_headers):
     """
     Escenario:
         Existen facturas registradas dentro del rango de fechas solicitado.
@@ -21,6 +21,7 @@ def test_get_invoices_success(client, sample_invoices):
             "page": 1,
             "page_size": 3,
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -33,7 +34,7 @@ def test_get_invoices_success(client, sample_invoices):
     assert len(data["items"]) == 3
 
 
-def test_get_invoices_without_start_date(client):
+def test_get_invoices_without_start_date(client, auth_headers):
     """
     Escenario:
         El cliente no envía el parámetro obligatorio 'start_date'.
@@ -50,6 +51,7 @@ def test_get_invoices_without_start_date(client):
         query_string={
             "end_date": "2022-01-31",
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -60,7 +62,7 @@ def test_get_invoices_without_start_date(client):
     ]
 
 
-def test_get_invoices_without_end_date(client):
+def test_get_invoices_without_end_date(client, auth_headers):
     """
     Escenario:
         El cliente no envía el parámetro obligatorio 'end_date'.
@@ -77,6 +79,7 @@ def test_get_invoices_without_end_date(client):
         query_string={
             "start_date": "2022-01-01",
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -87,7 +90,7 @@ def test_get_invoices_without_end_date(client):
     ]
 
 
-def test_get_invoices_with_default_page(client, sample_invoices):
+def test_get_invoices_with_default_page(client, sample_invoices, auth_headers):
     """
     Escenario:
         El cliente no envía el parámetro 'page'.
@@ -106,6 +109,7 @@ def test_get_invoices_with_default_page(client, sample_invoices):
             "end_date": "2022-01-31",
             "page_size": 3,
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -115,7 +119,7 @@ def test_get_invoices_with_default_page(client, sample_invoices):
     assert data["page_size"] == 3
 
 
-def test_get_invoices_with_default_page_size(client, sample_invoices):
+def test_get_invoices_with_default_page_size(client, sample_invoices, auth_headers):
     """
     Escenario:
         El cliente no envía el parámetro 'page_size'.
@@ -134,6 +138,7 @@ def test_get_invoices_with_default_page_size(client, sample_invoices):
             "end_date": "2022-01-31",
             "page": 1,
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -143,7 +148,7 @@ def test_get_invoices_with_default_page_size(client, sample_invoices):
     assert data["page_size"] == 20
 
 
-def test_get_invoices_with_maximum_page_size(client, sample_invoices):
+def test_get_invoices_with_maximum_page_size(client, sample_invoices, auth_headers):
     """
     Escenario:
         El cliente solicita el número máximo permitido de registros
@@ -163,6 +168,7 @@ def test_get_invoices_with_maximum_page_size(client, sample_invoices):
             "page": 1,
             "page_size": 100,
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -171,7 +177,7 @@ def test_get_invoices_with_maximum_page_size(client, sample_invoices):
     assert data["page_size"] == 100
 
 
-def test_get_invoices_with_page_size_greater_than_maximum(client):
+def test_get_invoices_with_page_size_greater_than_maximum(client, auth_headers):
     """
     Escenario:
         El cliente envía un valor de 'page_size' mayor al permitido.
@@ -190,6 +196,7 @@ def test_get_invoices_with_page_size_greater_than_maximum(client):
             "end_date": "2022-01-31",
             "page_size": 101,
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -198,7 +205,7 @@ def test_get_invoices_with_page_size_greater_than_maximum(client):
     assert "page_size" in data
 
 
-def test_get_invoices_with_page_less_than_one(client):
+def test_get_invoices_with_page_less_than_one(client, auth_headers):
     """
     Escenario:
         El cliente envía un número de página menor que uno.
@@ -217,6 +224,7 @@ def test_get_invoices_with_page_less_than_one(client):
             "end_date": "2022-01-31",
             "page": 0,
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -225,7 +233,7 @@ def test_get_invoices_with_page_less_than_one(client):
     assert "page" in data
 
 
-def test_get_invoices_with_invalid_date_range(client):
+def test_get_invoices_with_invalid_date_range(client, auth_headers):
     """
     Escenario:
         La fecha de inicio es posterior a la fecha de fin.
@@ -243,6 +251,7 @@ def test_get_invoices_with_invalid_date_range(client):
             "start_date": "2022-02-01",
             "end_date": "2022-01-01",
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -253,7 +262,7 @@ def test_get_invoices_with_invalid_date_range(client):
     ]
 
 
-def test_get_invoices_with_invalid_start_date_format(client):
+def test_get_invoices_with_invalid_start_date_format(client, auth_headers):
     """
     Escenario:
         El cliente envía una fecha de inicio con un formato inválido.
@@ -272,6 +281,7 @@ def test_get_invoices_with_invalid_start_date_format(client):
             "start_date": "01/01/2022",
             "end_date": "2022-01-31",
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -282,7 +292,7 @@ def test_get_invoices_with_invalid_start_date_format(client):
     ]
 
 
-def test_get_invoices_with_invalid_end_date_format(client):
+def test_get_invoices_with_invalid_end_date_format(client, auth_headers):
     """
     Escenario:
         El cliente envía una fecha de fin con un formato inválido.
@@ -301,6 +311,7 @@ def test_get_invoices_with_invalid_end_date_format(client):
             "start_date": "2022-01-01",
             "end_date": "31/01/2022",
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()
@@ -311,7 +322,7 @@ def test_get_invoices_with_invalid_end_date_format(client):
     ]
 
 
-def test_get_invoices_without_results(client):
+def test_get_invoices_without_results(client, auth_headers):
     """
     Escenario:
         No existen facturas dentro del rango de fechas solicitado.
@@ -329,6 +340,7 @@ def test_get_invoices_without_results(client):
             "start_date": "2030-01-01",
             "end_date": "2030-01-31",
         },
+        headers=auth_headers,
     )
 
     data = response.get_json()

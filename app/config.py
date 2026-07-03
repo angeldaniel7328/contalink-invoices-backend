@@ -32,3 +32,4 @@ class ConfigTest:
     TESTING = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     SQLALCHEMY_SESSION_OPTIONS = {"expire_on_commit": False}
+    JWT_SECRET_KEY = "test-secret-key"

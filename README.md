@@ -74,3 +74,56 @@ http://localhost:5000/apidocs/
 ```bash
 python -m pytest tests
 ```
+
+## Autenticación
+
+Obtener un token JWT utilizando autenticación Basic.
+
+```bash
+curl --request POST \
+  --url http://localhost:5000/api/auth/login \
+  --user admin:admin123
+```
+
+Respuesta:
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expires_at": "2026-07-04T12:30:45+00:00",
+  "expires_in": 3600
+}
+```
+
+---
+
+## Consultar facturas
+
+Utiliza el token obtenido en el endpoint de autenticación.
+
+```bash
+curl --request GET \
+  --url "http://localhost:5000/api/invoices?start_date=2022-01-01&end_date=2022-01-31" \
+  --header "Authorization: Bearer <ACCESS_TOKEN>"
+```
+
+Respuesta:
+
+```json
+{
+  "total": 1454,
+  "page": 1,
+  "page_size": 10,
+  "total_pages": 146,
+  "items": [
+    {
+      "id": 1270,
+      "invoice_number": "C29718",
+      "total": "10.0",
+      "invoice_date": "2022-01-03T07:50:08",
+      "status": "Vigente",
+      "active": false
+    }
+  ]
+}
+```
